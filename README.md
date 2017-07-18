@@ -8,7 +8,8 @@ df2=pd.read_csv("P:/revise_survival_analysis/casesDemographicsForSurvivalAnalysi
 df2.columns=['mrd_pt_id','pat_id','indexDate','birth_dts','NMH_MRN','NMFF_MRN','gender_nm','race_nm','ethncty_nm','age_atIndex','death_dts','death_flag']
 merge=pd.merge(df1,df2,how='left',left_on='mrd_pt_id', right_on='mrd_pt_id')
 merge['death_dts'].fillna('2012-03-21',inplace=True)             
-merge['days_diff']=pd.to_datetime(merge['death_dts'])-pd.to_datetime(merge['indexDate'])             
+merge['days_diff']=pd.to_datetime(merge['death_dts'])-pd.to_datetime(merge['indexDate'])   
+merge['days_diff']=merge['days_diff'].dt.days
 df=merge[['group','days_diff','death_flag']]
 df.to_csv("P:/revise_survival_analysis/cases_survivalCurveInputFile.csv")
 from lifelines import KaplanMeierFitter
